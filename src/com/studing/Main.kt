@@ -28,9 +28,9 @@ fun main(args: Array<String>) {
     // Task 3
     val inVal = "30.02.2000"
     val inStr = inVal.split(".")
-    val inDate = Integer.parseInt(inStr[0])
-    val inMonth = Integer.parseInt(inStr[1])
-    val inYear = Integer.parseInt(inStr[2])
+    val inDate = inStr[0].toInt()
+    val inMonth = inStr[1].toInt()
+    val inYear = inStr[2].toInt()
     var error = false
     when (inMonth) {
         1, 3, 5, 7, 8, 10, 12 -> if (inDate > 31) error = true
