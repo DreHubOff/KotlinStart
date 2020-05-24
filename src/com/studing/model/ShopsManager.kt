@@ -3,10 +3,6 @@ package com.studing.model
 import com.studing.extantions.*
 import java.util.HashSet
 import kotlin.Comparator
-import kotlin.Int
-import kotlin.String
-import kotlin.let
-import kotlin.toString
 
 class ShopsManager(private val stores: List<Store>) {
 
@@ -35,7 +31,7 @@ class ShopsManager(private val stores: List<Store>) {
             .phones
             .filter { it.isSameBrand(brand) }
             .map { it.getViewStr() }
-        return if (phonesOut.isNotEmpty()) phonesOut.getViewString() else "Smartphone out of stock"
+        return if (phonesOut.isNotEmpty()) phonesOut.joinToString("", "\t", "") else "Smartphone out of stock"
     }
 
     fun findPhoneByRange(storeName: String, minCost: Int, maxCost: Int): String {
@@ -43,16 +39,15 @@ class ShopsManager(private val stores: List<Store>) {
             .phones
             .filter { it.cost in (minCost..maxCost) }
             .map { it.getViewStr() }
-        return if (phonesOut.isNotEmpty()) phonesOut.getViewString()
+        return if (phonesOut.isNotEmpty()) phonesOut.joinToString("", "\t", "")
         else "No phones in this price range"
     }
 
     fun findUniquePhones(): String {
         val allPhone: MutableSet<Phone> = HashSet()
         stores.forEach { if (it.address != null) allPhone.addAll(it.phones) }
-        return if (allPhone.isNotEmpty()) allPhone.map { it.getViewStr() }.getViewString() else "No phones"
+        return if (allPhone.isNotEmpty()) allPhone.joinToString("", "\t", "") { it.getViewStr() }
+        else "No phones"
     }
 }
 
-fun List<String>.getViewString() = this.toString()
-    .replace("[", "").replace("]", "")
