@@ -1,46 +1,37 @@
 package com.studing
 
+import com.studing.data.generate
+import com.studing.model.ShopsManager
+
 fun main(args: Array<String>) {
-    // Task 1
-    val first = 10
-    val second = 12
-    val third = 19
-    val result = when {
-        first > third && second > third -> sqr(first) + sqr(second)
-        first > second -> sqr(first) + sqr(third)
-        else -> sqr(second) + sqr(third)
-    }
-    println("Result: $result")
+    val shopsManager = ShopsManager(generate())
 
-    // Task 2
-    val hex = 0xffea00
-    println(
-        when (hex) {
-            0x000000 -> "black"
-            0xffea00 -> "yellow"
-            0xff0000 -> "red"
-            0x000dff -> "blue"
-            0x15ff00 -> "green"
-            else -> "error"
-        }
-    )
+    println("Enter the name of the store to find the cheapest phone.")
+    println(shopsManager.findChPhone(readLine().orEmpty()))
+    println()
 
-    // Task 3
-    val inVal = "30.02.2000"
-    val inStr = inVal.split(".")
-    val inDate = inStr[0].toInt()
-    val inMonth = inStr[1].toInt()
-    val inYear = inStr[2].toInt()
-    var error = false
-    when (inMonth) {
-        1, 3, 5, 7, 8, 10, 12 -> if (inDate > 31) error = true
-        4, 6, 9, 11 -> if (inDate > 30) error = true
-        2 -> {
-            if (inYear % 4 == 0 && inDate > 29) error = true
-            if (inYear % 4 != 0 && inDate > 28) error = true
-        }
-    }
-    println(if (error) "value is not valid" else "ok!")
+    println("The phone that has the biggest discount: ")
+    println(shopsManager.findMaxDiscount())
+    println()
+
+    println("Enter the name of the store: ")
+    val inNameStore = readLine().orEmpty()
+    println("Enter the name of the brand: ")
+    val inNameBrand = readLine().orEmpty()
+    println(shopsManager.findPhoneByBrand(inNameStore, inNameBrand))
+    println()
+
+
+    println("Enter the name of the store: ")
+    val inNameStore2 = readLine().orEmpty()
+    println("Enter the min cost: ")
+    val minCost = readLine().orEmpty().toInt()
+    println("Enter the max cost: ")
+    val maxCost = readLine().orEmpty().toInt()
+    println(shopsManager.findPhoneByRange(inNameStore2, minCost, maxCost))
+
+    println("Unique phones: ")
+    println(shopsManager.findUniquePhones())
+
 }
 
-fun sqr(x: Int): Int = x * x
