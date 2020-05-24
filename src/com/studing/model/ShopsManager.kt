@@ -38,17 +38,13 @@ class ShopsManager(private val stores: List<Store>) {
     }
 
     fun findUniquePhones(): String {
-        val allPhone = (stores.first().phones).toMutableList()
-        stores.forEachIndexed { index, store -> if (index > 0 && store.address != null) allPhone.addAll((store.phones)) }
-
-        val outList = allPhone
-            .filter { !it.containsMore(allPhone) }
-            .map { it.getViewStr() }
-        return if (outList.isNotEmpty()) outList.getViewString() else "No phones"
+        val allPhone = (stores.first().phones).toMutableSet()
+        stores.forEachIndexed { index, store ->
+            if (index > 0 && store.address != null) allPhone.addAll(store.phones)
+        }
+        return if (allPhone.isNotEmpty()) allPhone.map { it.getViewStr() }.getViewString() else "No phones"
     }
-
-
 }
 
-private fun List<String>.getViewString() = this.toString()
+fun List<String>.getViewString() = this.toString()
     .replace("[", "").replace("]", "")

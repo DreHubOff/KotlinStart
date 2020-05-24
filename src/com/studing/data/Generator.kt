@@ -46,7 +46,7 @@ fun generate(): List<Store> {
     stores.add(
         Store(
             "Mobilochka", "Kirova st. 18", "https://mo.ua/", listOf(
-                Phone("Xiaomi", "Redmi Note 8 Pro", 6_200),
+                Phone("Xiaomi", "Redmi Note 8 Pro", 5_999),
                 Phone("Samsung", "Galaxy A51", 8_799, 10.toDouble()),
                 Phone("Unique Phone", "firs", 9999)
             )
