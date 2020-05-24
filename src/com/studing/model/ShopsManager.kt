@@ -1,6 +1,12 @@
 package com.studing.model
 
 import com.studing.extantions.*
+import java.util.HashSet
+import kotlin.Comparator
+import kotlin.Int
+import kotlin.String
+import kotlin.let
+import kotlin.toString
 
 class ShopsManager(private val stores: List<Store>) {
 
@@ -13,12 +19,16 @@ class ShopsManager(private val stores: List<Store>) {
     }
 
     fun findMaxDiscount(): String {
-        var retStore: Store =
-            stores.maxWith(Comparator { store1, store2 -> store1.findMaxDiscount() - store2.findMaxDiscount() })!!
+        val retStore: Store = stores.maxWith(
+            Comparator { store1, store2 -> store1.findMaxDiscount() - store2.findMaxDiscount() })!!
 
-        return if (retStore.findMaxDiscount() == 0) "No discounts"
-        else "Store name:${retStore.name} \n\t${retStore.phones.maxBy { it.discount }!!.getViewStr()}"
+        return when {
+            retStore.findMaxDiscount() > 0 -> "Store name:${retStore.name} \n\t${retStore.phones.maxBy { it.discount }!!
+                .getViewStr()}"
+            else -> "No discounts"
+        }
     }
+
 
     fun findPhoneByBrand(storeName: String, brand: String): String {
         val phonesOut = let { stores.find { it.isSameName(storeName) } ?: return "Shop not found" }
@@ -38,10 +48,8 @@ class ShopsManager(private val stores: List<Store>) {
     }
 
     fun findUniquePhones(): String {
-        val allPhone = (stores.first().phones).toMutableSet()
-        stores.forEachIndexed { index, store ->
-            if (index > 0 && store.address != null) allPhone.addAll(store.phones)
-        }
+        val allPhone: MutableSet<Phone> = HashSet()
+        stores.forEach { if (it.address != null) allPhone.addAll(it.phones) }
         return if (allPhone.isNotEmpty()) allPhone.map { it.getViewStr() }.getViewString() else "No phones"
     }
 }
